@@ -6,6 +6,7 @@ from math import ceil
 import json
 
 app = Flask(__name__)
+app.secret_key = 'secret_key'
 
 # Connection to MongoDB
 client = MongoClient("mongodb://mongodb-service:27017/")
