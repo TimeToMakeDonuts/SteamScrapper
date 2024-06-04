@@ -55,9 +55,16 @@ SteamScrapper for a school project. It offers basic way of <a href="https://stor
     docker build -t localhost:5000/interface:latest .
     docker push localhost:5000/interface:latest
 
-## Apply the Kubernetes configuration files:
+## Apply the Kubernetes configuration files for interface and engine
     kubectl apply -f /SteamScrapper/kubernetes/engine-deployment.yaml
     kubectl apply -f /SteamScrapper/kubernetes/interface-deployment.yaml
+
+##  Create path in minikube for mongoDB service
+    minikube ssh
+    sudo mkdir -p /mnt/data
+    sudo chmod 777 /mnt/data
+    exit
+##  Apply Kubernetes configuration file for Mongo Database
     kubectl apply -f /SteamScrapper/kubernetes/mongodb-deployment.yaml
 
 ## Check the pods status (all should be running)
