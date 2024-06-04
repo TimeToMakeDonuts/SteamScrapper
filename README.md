@@ -36,8 +36,8 @@ SteamScrapper for a school project. It offers basic way of <a href="https://stor
 ### Lets say that your layout is /SteamScraper
 
 ## Start a local Docker registry:
-    docker run -d -p 5000:5000 --restart=always --name registry registry:2
-    
+    docker run -d -p 5000:5000 --name registry registry:2
+
 ## Set the Minikube Docker environment
     eval $(minikube -p minikube docker-env)
     
