@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Steam Scraper</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Steam Scraper</h1>
+        <form method="POST" action="/">
+            <label for="categories">Enter categories (comma separated):</label>
+            <input type="text" id="categories" name="categories" required>
+            <label for="pages">Number of pages to scrape:</label>
+            <input type="number" id="pages" name="pages" value="5" min="1">
+            <button type="submit">Start Scraping</button>
+            {% if error %}
+                <p>{{ error }}</p>
+            {% endif %}
+        </form>
+        <form method="GET" action="{{ url_for('show_existing_data') }}">
+            <button type="submit">Show Existing Data</button>
+        </form>
+    </div>
+</body>
+</html>
+

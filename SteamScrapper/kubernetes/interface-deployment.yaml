@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: interface-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: interface
+  template:
+    metadata:
+      labels:
+        app: interface
+    spec:
+      containers:
+      - name: interface
+        image: localhost:5000/interface:latest
+        ports:
+        - containerPort: 5000
+        env:
+        - name: FLASK_RUN_HOST
+          value: "0.0.0.0"
+        - name: FLASK_RUN_PORT
+          value: "5000"
+        volumeMounts:
+        - name: engine-volume
+          mountPath: /app/engine
+      volumes:
+      - name: engine-volume
+        hostPath:
+          path: /home/student/Desktop/new_project
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: interface-service
+spec:
+  selector:
+    app: interface
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+      nodePort: 32256 
+  type: NodePort
+

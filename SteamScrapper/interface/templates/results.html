@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% if request.endpoint == 'show_existing_data' %}Existing Data{% else %}Scraping Results{% endif %}</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>{% if request.endpoint == 'show_existing_data' %}Existing Data{% else %}Scraping Results{% endif %}</h1>
+        <div class="sort-options">
+            <form method="get" action="{{ url_for(request.endpoint) }}">
+                <input type="hidden" name="page" value="1">
+                <label for="sort_by">Sort by:</label>
+                <select id="sort_by" name="sort_by">
+                    <option value="name" {% if sort_by == 'name' %}selected{% endif %}>Name</option>
+                    <option value="price_before" {% if sort_by == 'price_before' %}selected{% endif %}>Original Price</option>
+                    <option value="price_after" {% if sort_by == 'price_after' %}selected{% endif %}>Discounted Price</option>
+                    <option value="date" {% if sort_by == 'date' %}selected{% endif %}>Release Date</option>
+                    <option value="categories" {% if sort_by == 'categories' %}selected{% endif %}>Categories</option>
+                </select>
+                <label for="order">Order:</label>
+                <select id="order" name="order">
+                    <option value="asc" {% if order == 'asc' %}selected{% endif %}>Ascending</option>
+                    <option value="desc" {% if order == 'desc' %}selected{% endif %}>Descending</option>
+                </select>
+                {% if categories %}
+                    <label for="categories">Filter by categories:</label><br>
+                    <div class="checkbox-group">
+                        {% for category in categories %}
+                            <label><input type="checkbox" name="categories" value="{{ category }}" {% if category in selected_categories %}checked{% endif %}>{{ category.capitalize() }}</label><br>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <button type="submit">Sort</button>
+            </form>
+        </div>
+        <div class="results">
+            {% for result in results %}
+                <div class="result-item">
+                    <img src="{{ result.thumbnail }}" alt="{{ result.name }}">
+                    <h3><a href="{{ result.link }}" target="_blank">{{ result.name }}</a></h3>
+                    <p>Original Price: {{ result.price_before }}</p>
+                    <p>Discounted Price: {{ result.price_after }}</p>
+                    <p>Release Date: {{ result.date }}</p>
+                    <p>Categories: {{ result.categories | join(", ") }}</p>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="pagination">
+            {% if current_page > 1 %}
+                <a href="{{ url_for(request.endpoint, page=1, sort_by=sort_by, order=order, categories=selected_categories) }}">First</a>
+            {% endif %}
+            {% for page_num in pages %}
+                <a href="{{ url_for(request.endpoint, page=page_num, sort_by=sort_by, order=order, categories=selected_categories) }}" class="{{ 'active' if page_num == current_page else '' }}">{{ page_num }}</a>
+            {% endfor %}
+            {% if current_page < total_pages %}
+                <a href="{{ url_for(request.endpoint, page=total_pages, sort_by=sort_by, order=order, categories=selected_categories) }}">Last</a>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
+
