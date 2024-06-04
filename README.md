@@ -41,18 +41,17 @@ SteamScrapper for a school project. It offers basic way of <a href="https://stor
 ## Set the Minikube Docker environment
     eval $(minikube -p minikube docker-env)
     
-## Tag the images
-    docker tag interface:latest localhost:5000/interface:latest
-    docker tag engine:latest localhost:5000/engine:latest
-    
-## Make Docker image for engine
+## Make Docker image and tag for engine
     cd /SteamScrapper/engine
     docker build -t localhost:5000/engine:latest .
+    docker tag engine:latest localhost:5000/engine:latest
+
     docker push localhost:5000/engine:latest
 
-## Make Docker image for interface
+## Make Docker image and tag for interface
     cd /SteamScrapper/interface
     docker build -t localhost:5000/interface:latest .
+    docker tag interface:latest localhost:5000/interface:latest
     docker push localhost:5000/interface:latest
 
 ## Apply the Kubernetes configuration files for interface and engine
