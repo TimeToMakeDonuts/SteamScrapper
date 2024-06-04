@@ -89,3 +89,5 @@ SteamScrapper for a school project. It offers basic way of <a href="https://stor
     show databases
     use steam_scraper
     db.dropDatabase()
+    exit
+    exit
