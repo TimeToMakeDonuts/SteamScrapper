@@ -32,4 +32,60 @@ SteamScrapper for a school project. It offers basic way of <a href="https://stor
     sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
 ### Start your cluster
      minikube start
-##
+## Copy all the files (Don't change layout)
+
+
+## Start a local Docker registry:
+    docker run -d -p 5000:5000 --restart=always --name registry registry:2
+    
+## Set the Minikube Docker environment
+    eval $(minikube -p minikube docker-env)
+    
+## Tag the images
+    docker tag interface:latest localhost:5000/interface:latest
+    docker tag engine:latest localhost:5000/engine:latest
+    
+## Make Docker image for engine
+    cd /SteamScrapper/engine
+    docker build -t localhost:5000/engine:latest .
+    docker push localhost:5000/engine:latest
+
+## Make Docker image for interface
+    cd /SteamScrapper/interface
+    docker build -t localhost:5000/interface:latest .
+    docker push localhost:5000/interface:latest
+
+## Apply the Kubernetes configuration files:
+    kubectl apply -f /SteamScrapper/kubernetes/engine-deployment.yaml
+    kubectl apply -f /SteamScrapper/kubernetes/interface-deployment.yaml
+    kubectl apply -f /SteamScrapper/kubernetes/mongodb-deployment.yaml
+
+## Check the pods status (all should be running)
+    kubectl get pods
+
+# Known Errors
+## MongoDB pulls the wrong version (Above 5.0)
+### Manually Pull the MongoDB 4.4 Image
+    minikube ssh
+    docker pull mongo:4.4
+    exit
+
+# Access the service
+## Get Minikube ip
+    #There should be ip address which you can use to access the service (mine example: 192.168.49.2)
+## Get service port
+    kubectl get services
+    #There should be your interface-service with the port. It should always be 32256 but in case it isn't (even after being specified in .yaml file) use the one that shows.
+## Access the website
+    #In you browser write minikubeip:interface-service port (For me it was 192.168.49.2:32256)
+
+# Clearing MongoDB
+## Get name of the MongoDB pod
+    kubectl get pods
+## Access it and drop the database
+    #Lets say that your pod name is mongodb-deployment-9f549b7b6-clzp8
+    kubectl exec -it mongodb-deployment-9f549b7b6-clzp8 -- /bin/bash
+    mongo
+    show databases
+    use steam_scraper
+    db.dropDatabase()
