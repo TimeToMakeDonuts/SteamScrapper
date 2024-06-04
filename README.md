@@ -33,7 +33,7 @@ SteamScrapper for a school project. It offers basic way of <a href="https://stor
 ### Start your cluster
      minikube start
 ## Copy all the files (Don't change layout)
-
+### Lets say that your layout is /SteamScraper
 
 ## Start a local Docker registry:
     docker run -d -p 5000:5000 --restart=always --name registry registry:2
