@@ -17,6 +17,22 @@ collection = db["games"]
 with open('categories.json', 'r') as f:
     CATEGORY_TAGS = json.load(f)
 
+def parse_date(date_str):
+    if date_str == 'Brak danych':
+        return datetime.min
+    try:
+        return datetime.strptime(date_str, '%d %b, %Y')
+    except ValueError:
+        pass
+    try:
+        return datetime.strptime(date_str, '%b %Y')
+    except ValueError:
+        pass
+    try:
+        return datetime.strptime(date_str, '%Y')
+    except ValueError:
+        return datetime.min
+
 def sort_results(results, sort_by, order):
     reverse = (order == 'desc')
     if sort_by == 'date':
@@ -28,14 +44,6 @@ def sort_results(results, sort_by, order):
     else:
         results = sorted(results, key=lambda x: x[sort_by], reverse=reverse)
     return results
-
-def parse_date(date_str):
-    if date_str == 'Brak danych':
-        return datetime.min
-    try:
-        return datetime.strptime(date_str, '%d %b, %Y')
-    except ValueError:
-        return datetime.strptime('01 ' + date_str, '%d %b %Y')
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -137,4 +145,3 @@ def show_existing_data():
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
-
