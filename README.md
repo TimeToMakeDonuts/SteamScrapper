@@ -64,18 +64,17 @@ SteamScrapper for a school project. It offers basic way of <a href="https://stor
     sudo mkdir -p /mnt/data
     sudo chmod 777 /mnt/data
     exit
+
+## Manually Pull the MongoDB 4.4 Image
+    minikube ssh
+    docker pull mongo:4.4
+    exit
+    
 ##  Apply Kubernetes configuration file for Mongo Database
     kubectl apply -f /SteamScrapper/kubernetes/mongodb-deployment.yaml
 
 ## Check the pods status (all should be running)
     kubectl get pods
-
-# Known Errors
-## MongoDB pulls the wrong version (Above 5.0)
-### Manually Pull the MongoDB 4.4 Image
-    minikube ssh
-    docker pull mongo:4.4
-    exit
 
 # Access the service
 ## Get Minikube ip
