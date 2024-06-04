@@ -34,18 +34,16 @@ SteamScrapper for a school project. It offers basic way of <a href="https://stor
      minikube start
 ## Copy all the files (Don't change layout)
 ### Lets say that your layout is /SteamScraper
-
-## Start a local Docker registry:
-    docker run -d -p 5000:5000 --name registry registry:2
-
 ## Set the Minikube Docker environment
     eval $(minikube -p minikube docker-env)
+    
+## Start a local Docker registry:
+    docker run -d -p 5000:5000 --name registry registry:2   
     
 ## Make Docker image and tag for engine
     cd /SteamScrapper/engine
     docker build -t localhost:5000/engine:latest .
     docker tag engine:latest localhost:5000/engine:latest
-
     docker push localhost:5000/engine:latest
 
 ## Make Docker image and tag for interface
