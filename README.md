@@ -43,13 +43,13 @@ SteamScrapper for a school project. It offers basic way of <a href="https://stor
 ## Make Docker image and tag for engine
     cd /SteamScrapper/engine
     docker build -t localhost:5000/engine:latest .
-    docker tag localhost:5000/engine:latest localhost:5000/engine:latest
+    docker tag engine:latest localhost:5000/engine:latest
     docker push localhost:5000/engine:latest
 
 ## Make Docker image and tag for interface
     cd /SteamScrapper/interface
     docker build -t localhost:5000/interface:latest .
-    docker tag localhost:5000/interface:latest localhost:5000/interface:latest
+    docker tag interface:latest localhost:5000/interface:latest
     docker push localhost:5000/interface:latest
 
 ## Apply the Kubernetes configuration files for interface and engine
