@@ -21,6 +21,13 @@ SteamScrapper for a school project. It offers basic way of <a href="https://stor
     sudo apt-get update  
  ### Install the Docker packages
     sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+ ### Create the docker group.
+      sudo groupadd docker
+ ### Add the user to the docker group.
+    sudo usermod -aG docker $(whoami)
+ ### Log out and log back in to ensure docker runs with correct permissions.
+ ### Start docker.
+    sudo service docker start
  ### Verify that the Docker Engine installation is successful by running the hello-world image.
     sudo docker run hello-world
 ## Install kubernetes (If not installed)
